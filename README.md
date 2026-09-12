@@ -4,9 +4,9 @@ Low-cost, room-temperature **1.05–1.55 GHz radio-astronomy LNA** reference des
 
 ## Current release
 
-**RA-LNA-L1 V1.0D — prototype manufacturing candidate (2026-09-12)**
+**RA-LNA-L1 V1.0E — prototype manufacturing candidate (2026-09-12)**
 
-> **Do not fabricate V1.0C.** V1.0D supersedes it after review of the JLC viewer screenshot and an independent top-copper connectivity audit.
+> **Do not fabricate V1.0C or V1.0D.** V1.0E supersedes them for first fabrication.
 
 ### Target
 
@@ -19,33 +19,36 @@ Low-cost, room-temperature **1.05–1.55 GHz radio-astronomy LNA** reference des
 - QPL9547TR7 / LCSC C5367093
 - RF Solutions CON-SMA-EDGE-S / JLC C5356059
 
-## V1.0D critical fixes
+## Release history / critical fixes
 
-The JLC screenshot showed the V1.0C copper files being interpreted as miscellaneous layers (`杂层`). Review confirmed that the SMT pads and RF routing were in the intended front-copper file; the immediate display problem was ambiguous Gerber naming/metadata. V1.0D now uses JLC/Protel extensions (`.GTL/.G2L/.G3L/.GBL/.../.XLN`) and Gerber X2 `TF.FileFunction` attributes.
+V1.0D fixed the V1.0C JLC layer-recognition problem, two real +5 V copper opens, and an SMA ground-plane transfer issue. JLC isolated-layer review then confirmed Top/Inner1/Inner2/Bottom mapping and the intended signal/ground layer assignment.
 
-The same audit found two real V1.0C top-copper opens on the +5 V `VIN5` net:
+The V1.0D 3D preview subsequently exposed one plated 0.35 mm GND stitching via sitting exactly on the exposed lower SMA ground solder-land boundary at each connector. Those vias were electrically valid but mechanically unnecessary and could promote solder wicking during connector soldering.
 
-1. 0.10 mm gap between the VIN5 vertical bus and the J3 +5 V pad;
-2. 0.10 mm gap between the VIN5 neck and the C8 VIN pad.
+**V1.0E removes only those two drill hits.** RF signal copper, bias copper, component placement, stack-up and the surrounding GND via fence remain unchanged. An automated footprint-vs-drill check reports zero plated drill centers intersecting any exposed SMA solder land.
 
-V1.0D fixes both gaps and adds a dedicated plane-transfer via for the previously via-less J1 upper SMA ground land.
-
-QPL9547 pins 3/4/5/8 are internally NC per Qorvo and may be left floating or grounded. V1.0D does not rely on pins 5/8 for grounding; the exposed backside paddle remains the required RF/DC ground and keeps its two dedicated via-in-pad holes.
+QPL9547 backside paddle remains the required RF/DC ground and keeps its two dedicated 0.30 mm via-in-pad holes; those are a separate intentional feature and still require the selected fill/cap process.
 
 ## Before ordering
 
-The V1.0D Gerber ZIP is the fabrication authority. In the JLC viewer, confirm **four recognized copper layers**: Top, Inner1, Inner2, Bottom. If any copper is still shown only as `杂层`, Mechanical, or Unknown, **stop and do not order**.
+Generate or use the V1.0E Gerber ZIP and re-upload it to JLC. Confirm:
 
-Also confirm the live 50 Ω impedance calculation, CAM/DFM, U1 pin-1 orientation, and the two U1 via-in-pad holes before payment.
+1. four copper layers are recognized as Top / Inner1 / Inner2 / Bottom;
+2. isolated Top view shows the complete RF and bias network;
+3. Inner1 and Inner2 are solid GND planes;
+4. Bottom has no RF signal routing;
+5. the two black holes previously visible in the lower SMA ground solder lands are gone in 3D view;
+6. live 50 Ω impedance, CAM/DFM, BOM/CPL, U1 pin-1 and U1 via-in-pad process are all reviewed before payment.
 
 ## Repository layout
 
-- `source/` — V1.0D manufacturing rebuild/patch script
-- `manufacturing/V1.0D/` — order-ready layer files, BOM/CPL and layer map
-- `docs/` — audit findings
-- `eda/eagle/` — editable V1.0C transfer files retained as provenance; not fabrication authority
+- `source/build_v1_0e.py` — reproducibly derives V1.0E from the retained V1.0D Gerber ZIP
+- `manufacturing/RA-LNA-L1_V1.0D_main_Gerbers.zip` — retained superseded fabrication source
+- `manufacturing/V1.0E/` — current BOM/CPL/layer map
+- `docs/` — audit and JLC review findings
+- `eda/eagle/` — editable transfer files retained as provenance; not fabrication authority
 - `tools/` — measurement utilities
 - `simulation/cst/` — SMA-launch surrogate model
 - `mechanical/enclosure/` — shield-box prototype
 
-See `docs/V1.0C_AUDIT_FINDINGS.md` and `manufacturing/V1.0D/LAYER_MAP.md` first.
+Read `docs/SMA_VIA_AUDIT_V1.0E.md` before ordering.
