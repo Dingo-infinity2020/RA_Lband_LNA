@@ -1,0 +1,62 @@
+G0 replay-safe structure-macro run 20260913_130311 — event log
+===============================================================
+(reconstructed from GUI session screenshots and CST project state files;
+CST Messages pane was checked in-session and was empty)
+
+Context
+-------
+- Reviewer instruction: docs/NEXT_ACTION_CST_G0_REPLAY_SAFE_20260913.md
+- Macro: source/cst/G0_REPLAY_SAFE_STRUCTURE_V2.bas (commit f848972ee33fa034f505e59fdc4710c16e79efc0)
+  pasted verbatim into a Structure Macro; no local edits.
+- CST Studio Suite 2022, interactive GUI session, BUILD ONLY.
+
+Timeline (local time, UTC+8)
+----------------------------
+13:03:11  CST state checked (previous session had exited); CST Studio Suite 2022 relaunched.
+13:04:30  CST main window up; Quick Introduction Video dialog dismissed (No).
+13:05-06  Fresh empty Microwave Studio project created via the GUI
+          (New Project from Template -> 3D Simulation -> High Frequency).
+13:06-08  Macros -> Make VBA Macro: name RA_LNA_G0_REPLAYSAFE_V2, type "Structure Macro", OK.
+          VBA editor opened; exact contents of G0_REPLAY_SAFE_STRUCTURE_V2.bas pasted
+          (select-all + paste); macro saved (Ctrl+S / Save); editor closed.
+13:08:xx  Macros -> Run Macro -> RA_LNA_G0_REPLAYSAFE_V2 (structure-macro execution path).
+          Statements executed: StoreParameter x16; Units; Material FR4_RA_LNA;
+          Solver.FrequencyRange "0.5","3.0"; Brick x7 (PP_TOP, CORE, PP_BOTTOM, L2_GND, L3_GND,
+          L4_GND, TRACE); DiscretePort x2 (port1 at 1.2,3; port2 at 6.8,3); Boundary x6.
+          No MsgBox (by design). No solver started. Messages pane empty.
+13:09:18  Built model verified in 3D view; both port markers visible (screenshot rs_run_01).
+13:10     View zoomed; Messages tab checked: no messages/errors.
+13:11:46  Navigation tree expanded and verified:
+          Components (PCB: CORE/PP_BOTTOM/PP_TOP; Planes: L2_GND/L3_GND/L4_GND; Top: TRACE),
+          Materials (FR4_RA_LNA, PEC, Vacuum), Lumped Elements: none, Ports: port1, port2.
+          -> 7 brick solids, 2 ports confirmed in-session.
+13:12:06  History List opened: single block "execute macro: RA_LNA_G0_REPLAYSAFE_V2".
+13:12:24  "Edit History List Item" opened: recorded block = flat native commands only,
+          no helper-sub names.
+13:13     File -> Save As -> builds\RA_LNA_G0_PREFLIGHT_REPLAYSAFE_V2.cst
+          (new file, no overwrite prompt).
+13:14:52  Save completed. On-disk results:
+            RA_LNA_G0_PREFLIGHT_REPLAYSAFE_V2.cst  33,603 B
+            Model\3D\Model.mod                      4,345 B
+            Model\3D\Model.dsn                      "Number of ports: 2"
+            Model\3D\RA_LNA_G0_REPLAYSAFE_V2.mcs    4,924 B
+          No helper names in Model.mod (grep: 0 occurrences).
+13:15:30  Project closed (File -> Close; no save prompt).
+13:15:56  REOPEN #1 (recent file): no "Processing history information" error.
+13:16:38  Reopen #1 checks: tree expanded; 7 solids, materials, port1+port2 present;
+          model + ports visible.
+13:16:58  History List after reopen #1: block present; no error.
+13:17:20  Project closed again (no save).
+13:17:31  REOPEN #2: no error.
+13:17:44  Reopen #2 checks: tree expanded; 7 solids, materials, port1+port2 present.
+13:18     Project closed (no save). Offline file inspection repeated:
+          .cst 33,603 B / SHA256 a8ef32026eba4d9c978893244638c6b15a4216f4cc4b2019e0f9702b79b88b04;
+          Model.mod 4,345 B; Model.dsn "Number of ports: 2"; helper names 0;
+          fmin = 0.5 fmax = 3.0 present; file mtimes unchanged (13:14:52).
+
+Result
+------
+FINAL_STATUS=CST_G0_REPLAY_SAFE_BUILD_ONLY_PASS
+- build completed; 2 ports before save; 2 ports after reopen #1; 2 ports after reopen #2;
+- no history replay error; geometry/materials/history survive reopen; solver never run.
+No solver, sweep, optimizer or mesh adaptation was started at any point.
