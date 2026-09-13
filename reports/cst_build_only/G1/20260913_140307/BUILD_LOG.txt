@@ -1,0 +1,70 @@
+G1 replay-safe structure-macro run 20260913_140307 — event log
+===============================================================
+(reconstructed from GUI session screenshots and CST project state files;
+CST Messages pane was checked in-session and was empty)
+
+Context
+-------
+- Reviewer instruction: docs/NEXT_ACTION_CST_G1_REPLAY_SAFE_20260913.md
+- Macro: source/cst/G1_REPLAY_SAFE_STRUCTURE_V2.bas (commit 888c3a97669039ff38b1784e65575cb6833d3319)
+  pasted verbatim into a Structure Macro; no local edits.
+- CST Studio Suite 2022, interactive GUI session, BUILD ONLY.
+- Note: the workstation was locked when the run started; the GUI session resumed at 14:03
+  after the screen was unlocked. No CST action occurred while locked.
+
+Timeline (local time, UTC+8)
+----------------------------
+14:03:07  CST Studio Suite 2022 activated (welcome/backstage state); previous G0 project closed.
+14:04-05  Fresh empty Microwave Studio project created via the GUI
+          (New Project from Template -> 3D Simulation -> High Frequency).
+14:05-06  Macros -> Make VBA Macro: name RA_LNA_G1_REPLAYSAFE_V2, type "Structure Macro", OK.
+          VBA editor opened; exact contents of G1_REPLAY_SAFE_STRUCTURE_V2.bas pasted
+          (select-all + paste, clipboard verified 13,816 chars); macro saved; editor closed.
+14:06:xx  Macros -> Run Macro -> RA_LNA_G1_REPLAYSAFE_V2 (structure-macro execution path).
+          Statements executed: StoreParameter x16; Units; Material FR4_RA_LNA;
+          Solver.FrequencyRange "0.5","3.0"; Brick x31 (PP_TOP, CORE, PP_BOTTOM, L2_GND, L3_GND,
+          L4_GND, J1_SIG, J1_TAPER_0..15, J1_GND_LO/HI, RF_IN_1, C1_PAD1/2, RF_IN_2,
+          U1_PIN2_PAD, U1_EP); Cylinder x7 (J1_V1..V4, U1_GND34, U1_EP_A/B);
+          LumpedElement C1_100pF (RLC serial, C=100 pF); DiscretePort x2 (port1 0.25,9;
+          port2 6.50,9); Boundary x6. No MsgBox (by design). No solver started.
+14:06:32  Built model verified in 3D view; both port markers visible (screenshot g1v2_run_01).
+14:07:09  View adjusted for overview (screenshot g1v2_run_03).
+14:08-10  Navigation tree expanded and verified:
+          Components: PCB (CORE/PP_BOTTOM/PP_TOP), Planes (L2_GND/L3_GND/L4_GND),
+          Top (25 bricks incl. J1_TAPER_0..15), Vias (7 cylinders);
+          Materials: FR4_RA_LNA, PEC, Vacuum; Lumped Elements -> Lumped -> C1_100pF;
+          Ports: port1, port2. -> 31 bricks / 7 vias / 1 lumped / 2 ports confirmed in-session.
+14:11:11  Close-up view of launch/taper/C1/ports (screenshot g1v2_state_03).
+14:11:33  Medium view with C1_100pF label and ports (screenshot g1v2_launch_01).
+14:11:53  History List opened: single block "execute macro: RA_LNA_G1_REPLAYSAFE_V2"
+          (screenshot g1v2_hist_01).
+14:12:xx  File -> Save As -> builds\RA_LNA_G1_INPUT_REPLAYSAFE_V2.cst (new file).
+14:12:45  Save completed. On-disk results:
+            RA_LNA_G1_INPUT_REPLAYSAFE_V2.cst      49,644 B
+            Model\3D\Model.mod                     12,893 B
+            Model\3D\Model.dsn                     "Number of ports: 2"
+            Model\3D\RA_LNA_G1_REPLAYSAFE_V2.mcs   13,817 B
+          No helper names in Model.mod (grep: 0 occurrences); J1_TAPER_ 16x; C1_PAD 2x;
+          C1_100pF 1x; fmin 0.5 / fmax 3.0.
+14:13:30  Project closed (File -> Close; no save prompt).
+14:13:4x  REOPEN #1 (recent file): no "Processing history information" error.
+14:14-15  Reopen #1 checks: tree expanded; Components (PCB/Planes/Top/Vias) present;
+          Materials present; Lumped Elements -> Lumped -> C1_100pF present;
+          Ports -> port1, port2 present (screenshot g1v2_reopen1_05).
+14:15:19  History List after reopen #1: block present; no error (screenshot g1v2_reopen1_hist).
+14:16:0x  Project closed again (no save).
+14:16:15  REOPEN #2: no error; tree expanded; C1_100pF and both ports present
+          (screenshot g1v2_reopen2_01).
+14:17:3x  Project closed (no save). Offline file inspection repeated:
+          .cst 49,644 B / SHA256 c65b2b739f287e46b4c8af9c9dbc2a506f078e559938e643a00b1f5fdd3192e2;
+          Model.mod 12,893 B; Model.dsn "Number of ports: 2"; helper names 0;
+          file mtimes unchanged (14:12:45 / 14:12:44).
+
+Result
+------
+FINAL_STATUS=CST_G1_REPLAY_SAFE_BUILD_ONLY_PASS
+- build succeeded with the expected topology (31 bricks / 7 vias / 1 lumped / 2 ports);
+- C1_100pF present before save, after reopen #1 and after reopen #2;
+- both ports present before save, after reopen #1 and after reopen #2;
+- no history replay error; taper/launch geometry visually matches intent;
+- no solver, sweep, optimizer or mesh adaptation was started at any point.
