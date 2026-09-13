@@ -1,0 +1,72 @@
+G2 replay-safe structure-macro run 20260913_142924 — event log
+===============================================================
+(reconstructed from GUI session screenshots and CST project state files;
+CST Messages pane was checked in-session and was empty)
+
+Context
+-------
+- Reviewer instruction: docs/NEXT_ACTION_CST_G2_REPLAY_SAFE_20260913.md
+- Macro: source/cst/G2_REPLAY_SAFE_STRUCTURE_V2.bas (commit 9d45e8165d754b84a23969694c8cb3f55b03e046)
+  pasted verbatim into a Structure Macro; no local edits.
+- CST Studio Suite 2022, interactive GUI session, BUILD ONLY.
+
+Timeline (local time, UTC+8)
+----------------------------
+14:29:24  Fresh empty Microwave Studio project created via the GUI
+          (New Project from Template -> 3D Simulation -> High Frequency).
+14:29-30  Macros -> Make VBA Macro: name RA_LNA_G2_REPLAYSAFE_V2, type "Structure Macro", OK.
+          VBA editor opened; exact contents of G2_REPLAY_SAFE_STRUCTURE_V2.bas pasted
+          (select-all + paste; clipboard verified 29,937 chars); macro saved; editor closed.
+14:31-38  Macros -> Run Macro -> RA_LNA_G2_REPLAYSAFE_V2 (structure-macro execution path).
+          Statements executed: Units/Materials (FR4_RA_LNA); Solver.FrequencyRange "0.5","3.0";
+          58 Brick statements; 24 Cylinder statements; 7 LumpedElement statements
+          (L1_18nH, C5_CAP, C3_CAP, C4_CAP, R3_0R, C8_10uF, C2_100pF);
+          2 DiscretePort statements (port1, port2); Boundary x6.
+          No MsgBox (by design). No solver started.
+14:38:59  Built model verified in 3D view; both port markers visible (screenshot g2v2_run_01).
+14:39:23  View zoomed out to whole board (screenshot g2v2_run_02 = overview).
+14:40:35  Medium view: via fence + right launch + bias labels (screenshot g2v2_launch_03).
+14:41:00  Close-up: right output launch + C2 + port2 (screenshot g2v2_launch_04).
+14:41:24  Close-up: C2_100pF + port1 (U1 pin7) + 0.30 mm pad gap (screenshot g2v2_c2_01).
+14:41-42  Navigation tree expanded and verified:
+          Components: PCB, Planes, Top, Vias;
+          Materials: FR4_RA_LNA, PEC, Vacuum;
+          Lumped Elements -> Lumped -> C2_100pF, C3_CAP, C4_CAP, C5_CAP, C8_10uF, L1_18nH, R3_0R (7);
+          Ports: port1, port2.
+          -> 58 bricks / 24 vias / 7 lumped / 2 ports confirmed in-session.
+14:42:39  Tree screenshot incl. lumped list (screenshot g2v2_tree_03).
+14:43:04  Vias tree expanded: 24 via cylinders listed (screenshot g2v2_vias_01).
+14:43:30  History List opened: single block "execute macro: RA_LNA_G2_REPLAYSAFE_V2"
+          (screenshot g2v2_hist_01).
+14:44-45  File -> Save As -> builds\RA_LNA_G2_OUTPUT_REPLAYSAFE_V2.cst.
+          NOTE: first Save As attempt was rejected ("文件名无效") because the typed path lost
+          its backslashes (keyboard/IME artifact); the path was re-entered via clipboard paste.
+14:45:54  Save completed. On-disk results:
+            RA_LNA_G2_OUTPUT_REPLAYSAFE_V2.cst      72,859 B
+            Model\3D\Model.mod                      28,332 B
+            Model\3D\Model.dsn                      "Number of ports: 2"
+          Model.mod counts: With Brick 58; With Cylinder 24; With LumpedElement 7;
+          J2_TAPER_ 16; GF_ 12; all seven lumped names 1x each;
+          helper names 0; fmin 0.5 / fmax 3.0.
+14:46:06  Saved-state screenshot (g2v2_saved_01); project closed (File -> Close; no save prompt).
+14:46:3x  REOPEN #1 (recent file): no "Processing history information" error.
+14:47:22  Reopen #1 checks: tree expanded; Components (PCB/Planes/Top/Vias) present;
+          Materials present; all 7 lumped elements present; port1/port2 present
+          (screenshot g2v2_reopen1_03).
+14:47:32  History List after reopen #1: block present; no error (screenshot g2v2_reopen1_hist).
+14:48:0x  Project closed again (no save).
+14:48:14  REOPEN #2: no error; tree expanded; all 7 lumped elements and both ports present
+          (screenshot g2v2_reopen2_01).
+14:48:5x  Project closed (no save). Offline file inspection repeated:
+          .cst 72,859 B / SHA256 c199504fa3bfb275dd149427829a25f8c4943d5aed6885737960f0fedd7f7fb6;
+          Model.mod 28,332 B; Model.dsn "Number of ports: 2"; file mtimes unchanged (14:45:54).
+
+Result
+------
+FINAL_STATUS=CST_G2_REPLAY_SAFE_BUILD_ONLY_PASS
+- build succeeded with the expected topology (58 bricks / 24 vias / 7 lumped / 2 ports);
+- all seven lumped elements present before save, after reopen #1 and after reopen #2;
+- both ports present before save, after reopen #1 and after reopen #2;
+- no history replay error; output launch, C2, long line, via fence and bias-network geometry
+  visually match intent; no unintended copper short across C2/L1/R3/C8 gaps;
+- no solver, sweep, optimizer or mesh adaptation was started at any point.
