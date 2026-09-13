@@ -41,24 +41,19 @@ Before first payment/order, run the focused CST build/review sequence:
 
 The first pass is deliberately **BUILD ONLY**: no solver, optimizer or automated parameter sweep until each model builds cleanly and the geometry/ports are visually accepted. See `docs/PREFAB_SIMULATION_GATE_PLAN.md`.
 
-### Current CST blocker / next action
+### Current CST gate status
 
-G0 geometry and ports built correctly in-session, but the first saved projects failed persistence on reopen:
+The original save/reopen persistence issue has been resolved with flattened CST Structure Macros.
 
-- ordinary VBA-editor execution did not create replayable modeling history for ports/lumped objects;
-- the first Structure-Macro attempt recorded history, but replay failed because private helper-sub calls were stored verbatim and could not be resolved on reopen.
+- **G0: PASS** — geometry + two discrete ports survive two clean close/reopen cycles with replayable history and no solver run.
+- **G1: PASS** — 31 bricks, 7 vias, `C1_100pF`, and two ports survive two clean close/reopen cycles; the 16-step input taper and C1 copper gap were verified.
+- **G2: AUTHORIZED FOR BUILD-ONLY VALIDATION** — use `source/cst/G2_REPLAY_SAFE_STRUCTURE_V2.bas` and `docs/NEXT_ACTION_CST_G2_REPLAY_SAFE_20260913.md`.
+- **G3–G4: HOLD**.
+- **All solver execution remains prohibited** until a later explicit authorization.
 
-Therefore **G1–G4 and every solver remain on HOLD** until G0 proves clean save/reopen persistence.
+The G1 report is archived under:
 
-Use the reviewer-supplied flat Structure Macro:
-
-`source/cst/G0_REPLAY_SAFE_STRUCTURE_V2.bas`
-
-and follow:
-
-`docs/NEXT_ACTION_CST_G0_REPLAY_SAFE_20260913.md`
-
-The G0 acceptance test requires two clean close/reopen cycles with both ports present and no history-replay error.
+`reports/cst_build_only/G1/20260913_140307/`
 
 ## Before ordering
 
@@ -76,10 +71,13 @@ After the pre-fabrication simulation gate passes, re-confirm:
 
 - `source/build_v1_0e.py` — derives V1.0E from V1.0D
 - `source/build_v1_0f.py` — derives V1.0F from V1.0E and performs a silkscreen-only cleanup
-- `source/cst/G0_REPLAY_SAFE_STRUCTURE_V2.bas` — current replay-safe G0 candidate macro
+- `source/cst/G0_REPLAY_SAFE_STRUCTURE_V2.bas` — replay-safe G0 macro
+- `source/cst/G1_REPLAY_SAFE_STRUCTURE_V2.bas` — replay-safe G1 macro
+- `source/cst/G2_REPLAY_SAFE_STRUCTURE_V2.bas` — replay-safe G2 candidate macro
 - `manufacturing/RA-LNA-L1_V1.0D_main_Gerbers.zip` — retained superseded fabrication source
 - `docs/` — audit, JLC review and pre-fabrication simulation plan
+- `reports/cst_build_only/` — CST build-only evidence and replay-integrity reports
 - `eda/eagle/` — editable transfer files retained as provenance; not fabrication authority
 - `tools/` — measurement utilities
 
-Read `docs/SILKSCREEN_AUDIT_V1.0F.md`, `docs/PREFAB_SIMULATION_GATE_PLAN.md`, and `docs/NEXT_ACTION_CST_G0_REPLAY_SAFE_20260913.md` before ordering or advancing the CST gates.
+Read `docs/SILKSCREEN_AUDIT_V1.0F.md`, `docs/PREFAB_SIMULATION_GATE_PLAN.md`, and the latest `docs/NEXT_ACTION_CST_*` file before ordering or advancing the CST gates.
