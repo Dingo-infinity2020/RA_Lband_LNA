@@ -46,14 +46,17 @@ The first pass is deliberately **BUILD ONLY**: no solver, optimizer or automated
 The original save/reopen persistence issue has been resolved with flattened CST Structure Macros.
 
 - **G0: PASS** — geometry + two discrete ports survive two clean close/reopen cycles with replayable history and no solver run.
-- **G1: PASS** — 31 bricks, 7 vias, `C1_100pF`, and two ports survive two clean close/reopen cycles; the 16-step input taper and C1 copper gap were verified.
-- **G2: AUTHORIZED FOR BUILD-ONLY VALIDATION** — use `source/cst/G2_REPLAY_SAFE_STRUCTURE_V2.bas` and `docs/NEXT_ACTION_CST_G2_REPLAY_SAFE_20260913.md`.
-- **G3–G4: HOLD**.
+- **G1: PASS** — 31 bricks, 7 vias, one lumped capacitor and two ports survive two clean close/reopen cycles; the 16-step input taper and C1 copper gap were verified.
+- **G2: PASS** — 58 bricks, 24 vias, seven lumped elements and two ports survive two clean close/reopen cycles; the output launch, C2, ground fence and bias-network gaps were verified.
+- **G3: AUTHORIZED FOR BUILD-ONLY VALIDATION** — use `source/cst/G3_REPLAY_SAFE_STRUCTURE_V2.bas` and `docs/NEXT_ACTION_CST_G3_REPLAY_SAFE_20260913.md`.
+- **G4: HOLD**.
 - **All solver execution remains prohibited** until a later explicit authorization.
 
-The G1 report is archived under:
+Accepted reports:
 
-`reports/cst_build_only/G1/20260913_140307/`
+- `reports/cst_build_only/G0/20260913_130311/`
+- `reports/cst_build_only/G1/20260913_140307/`
+- `reports/cst_build_only/G2/20260913_142924/`
 
 ## Before ordering
 
@@ -73,7 +76,8 @@ After the pre-fabrication simulation gate passes, re-confirm:
 - `source/build_v1_0f.py` — derives V1.0F from V1.0E and performs a silkscreen-only cleanup
 - `source/cst/G0_REPLAY_SAFE_STRUCTURE_V2.bas` — replay-safe G0 macro
 - `source/cst/G1_REPLAY_SAFE_STRUCTURE_V2.bas` — replay-safe G1 macro
-- `source/cst/G2_REPLAY_SAFE_STRUCTURE_V2.bas` — replay-safe G2 candidate macro
+- `source/cst/G2_REPLAY_SAFE_STRUCTURE_V2.bas` — replay-safe G2 macro
+- `source/cst/G3_REPLAY_SAFE_STRUCTURE_V2.bas` — replay-safe G3 candidate macro
 - `manufacturing/RA-LNA-L1_V1.0D_main_Gerbers.zip` — retained superseded fabrication source
 - `docs/` — audit, JLC review and pre-fabrication simulation plan
 - `reports/cst_build_only/` — CST build-only evidence and replay-integrity reports
