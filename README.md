@@ -41,6 +41,25 @@ Before first payment/order, run the focused CST build/review sequence:
 
 The first pass is deliberately **BUILD ONLY**: no solver, optimizer or automated parameter sweep until each model builds cleanly and the geometry/ports are visually accepted. See `docs/PREFAB_SIMULATION_GATE_PLAN.md`.
 
+### Current CST blocker / next action
+
+G0 geometry and ports built correctly in-session, but the first saved projects failed persistence on reopen:
+
+- ordinary VBA-editor execution did not create replayable modeling history for ports/lumped objects;
+- the first Structure-Macro attempt recorded history, but replay failed because private helper-sub calls were stored verbatim and could not be resolved on reopen.
+
+Therefore **G1–G4 and every solver remain on HOLD** until G0 proves clean save/reopen persistence.
+
+Use the reviewer-supplied flat Structure Macro:
+
+`source/cst/G0_REPLAY_SAFE_STRUCTURE_V2.bas`
+
+and follow:
+
+`docs/NEXT_ACTION_CST_G0_REPLAY_SAFE_20260913.md`
+
+The G0 acceptance test requires two clean close/reopen cycles with both ports present and no history-replay error.
+
 ## Before ordering
 
 After the pre-fabrication simulation gate passes, re-confirm:
@@ -57,9 +76,10 @@ After the pre-fabrication simulation gate passes, re-confirm:
 
 - `source/build_v1_0e.py` — derives V1.0E from V1.0D
 - `source/build_v1_0f.py` — derives V1.0F from V1.0E and performs a silkscreen-only cleanup
+- `source/cst/G0_REPLAY_SAFE_STRUCTURE_V2.bas` — current replay-safe G0 candidate macro
 - `manufacturing/RA-LNA-L1_V1.0D_main_Gerbers.zip` — retained superseded fabrication source
 - `docs/` — audit, JLC review and pre-fabrication simulation plan
 - `eda/eagle/` — editable transfer files retained as provenance; not fabrication authority
 - `tools/` — measurement utilities
 
-Read `docs/SILKSCREEN_AUDIT_V1.0F.md` and `docs/PREFAB_SIMULATION_GATE_PLAN.md` before ordering.
+Read `docs/SILKSCREEN_AUDIT_V1.0F.md`, `docs/PREFAB_SIMULATION_GATE_PLAN.md`, and `docs/NEXT_ACTION_CST_G0_REPLAY_SAFE_20260913.md` before ordering or advancing the CST gates.
