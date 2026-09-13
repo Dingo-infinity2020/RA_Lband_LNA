@@ -1,0 +1,38 @@
+G0 build-only run 20260913_115800 — event log
+==============================================
+(structure-macro re-record attempt for the save-integrity defect)
+
+NOTE: This log was reconstructed from the GUI session screenshots and the resulting CST
+project state files. CST's Messages pane output was not exported to a file during the run.
+
+Timeline (local time, UTC+8)
+----------------------------
+11:58:19  Fresh project opened (FileNew) (screenshot g0v2_start_01).
+11:58-12:01  Macros -> Make VBA Macro: name RA_LNA_G0_ENV_PREFLIGHT_BUILD, type
+          "Structure Macro", OK; VBA editor opened; G0_structure.bas pasted
+          (patched G0 macro minus the FileNew line); macro saved; editor closed.
+12:01:44  Macros -> Run Macro -> RA_LNA_G0_ENV_PREFLIGHT_BUILD (screenshot g0v2_menu_01).
+12:02:xx  Macro executed — same statement sequence as run 20260913_105328:
+            StoreParameter x16; SetCommonUnitsAndMaterials; Solver.FrequencyRange "0.5","3.0";
+            BuildStack "0","8","0","6"; AddBrickPEC "TRACE"...; AddDiscretePortToL2 1,"1.2","3";
+            AddDiscretePortToL2 2,"6.8","3"; SetOpenBoundaries; MsgBox.
+          Completion MsgBox shown and dismissed. No solver started.
+12:02:50  History List: single block "execute macro: RA_LNA_G0_ENV_PREFLIGHT_BUILD"
+          (screenshot g0v2_hist_01). Model.mod = 1,432 B.
+12:08:01  File -> Save As -> RA_LNA_G0_PREFLIGHT_BUILD.cst (overwrites the run 20260913_105328
+          save; 33,986 B). Model\3D\Model.dsn reports "Number of ports: 2"; project stores
+          RA_LNA_G0_ENV_PREFLIGHT_BUILD.mcs (7,620 B) (screenshot g0v2_save_12).
+12:09:00  Project closed and reopened.
+12:09-12:14  "Processing history information" -> error dialog:
+            CST MICROWAVE STUDIO - History Error:
+            Expecting an existing scalar var. (SetCommonUnitsAndMaterials)
+          Details expanded; OK pressed. Model tree empty afterwards; status Ready
+          (screenshots hist_err_02 ... hist_err_07).
+12:17     Project closed without saving (screenshot close_proj_01).
+
+Result
+------
+History recording works for structure macros, but the recorded block is not replay-safe:
+it contains calls to the macro's private helper subs, which history replay cannot resolve.
+The port list was lost again on reopen (on-disk Model.dsn now: "Number of ports: 0").
+See REPORT.md and docs/V1.0F_CST_SAVE_INTEGRITY_FINDING.md.

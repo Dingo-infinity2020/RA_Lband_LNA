@@ -1,0 +1,38 @@
+CST Studio Suite 2022 — RA_LNA_G0_PREFLIGHT_BUILD — Navigation Tree
+(run 20260913_105328, in-session state before save; transcribed from screenshots)
+
+Components
+  PCB
+    CORE
+    PP_BOTTOM
+    PP_TOP
+  Planes
+    L2_GND
+    L3_GND
+    L4_GND
+  Top
+    TRACE
+Groups
+  (none)
+Materials
+  FR4_RA_LNA
+  PEC
+  Vacuum
+Faces / Curves / WCS / Anchor Points / Wires / Voxel Data / Dimensions
+  (default categories, no user objects)
+Lumped Elements
+  (none — as designed for G0)
+Plane Wave / Farfield Sources / Field Sources
+  (none)
+Ports
+  port1
+  port2
+Excitation Signals
+  default
+    Port1
+Field Monitors / Probes
+  (none)
+Mesh
+  (not created — build only)
+1D Results / 2D/3D Results / Farfields / Tables
+  (empty — no solver was run)

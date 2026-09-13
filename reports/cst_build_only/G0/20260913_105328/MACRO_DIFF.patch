@@ -1,0 +1,13 @@
+diff --git a/builds/original_macros/G0_ENV_PREFLIGHT_BUILD_ONLY.bas.orig b/G0_ENV_PREFLIGHT_BUILD_ONLY.bas
+index 3500f0b..c9be214 100644
+--- a/builds/original_macros/G0_ENV_PREFLIGHT_BUILD_ONLY.bas.orig
++++ b/G0_ENV_PREFLIGHT_BUILD_ONLY.bas
+@@ -21,7 +21,7 @@ Option Explicit
+ 
+ ' G0: environment/API preflight. This is deliberately tiny.
+ Sub Main()
+-    NewMWS
++    FileNew
+ 
+     StoreParameter "er", 4.1
+     StoreParameter "tand", 0.018

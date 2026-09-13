@@ -1,0 +1,50 @@
+G0 build-only run 20260913_105328 — event log
+=============================================
+
+NOTE: This log was reconstructed from the GUI session screenshots and the resulting CST
+project state files. CST's Messages pane output was not exported to a file during the run.
+
+Context
+-------
+- CST Studio Suite 2022, Design Environment, interactive session.
+- Macro: G0_ENV_PREFLIGHT_BUILD_ONLY.bas (patched: NewMWS -> FileNew; see MACRO_DIFF.patch).
+- Execution method: Macros -> Open VBA Macro Editor -> Open... -> Run.
+- Fresh project: FileNew (first line of the patched macro).
+
+Timeline (local time, UTC+8)
+----------------------------
+10:53:28  Run started; macro executing (screenshot g0_run_01).
+          Statements executed (in order):
+            StoreParameter x16 (er, tand, cu_top, cu_inner, h12, core_h, h34, trace_w,
+                                z_l2_top, z_l2_bot, z_core_bot, z_l3_top, z_l3_bot,
+                                z_bot_pp_bot, z_bot_cu_max, z_bot_cu_min)
+            SetCommonUnitsAndMaterials  (units mm/GHz/ns/V; material FR4_RA_LNA created)
+            Solver.FrequencyRange "0.5", "3.0"
+            BuildStack "0","8","0","6"  (PP_TOP, CORE, PP_BOTTOM, L2_GND, L3_GND, L4_GND)
+            AddBrickPEC "TRACE", "Top", "1","7","3-trace_w/2","3+trace_w/2","0","cu_top"
+            AddDiscretePortToL2 1, "1.2", "3"
+            AddDiscretePortToL2 2, "6.8", "3"
+            SetOpenBoundaries  (all six faces: expanded open)
+10:56:13  Macro finished at MsgBox: "G0 BUILD ONLY complete. Do not solve yet. Confirm
+          geometry, ports and stack-up." (screenshot g0_run_10)  -> No solver started.
+10:57-58  Model inspection: navigation tree, parameter list, 3D view (g0_built_03 ... g0_built_08).
+10:59:12  Tree/ports verification: Components (PCB/Planes/Top), Materials (FR4_RA_LNA, PEC,
+          Vacuum), Ports (port1, port2) (screenshot G0_model_ports_tree).
+10:59:43  File -> Save As -> RA_LNA_G0_PREFLIGHT_BUILD.cst
+          (title bar updated; ports still present in session; screenshot g0_saveas_02).
+          First-pass save SHA256: ee99a80f531841e3eb3700ee0269ac2cbbc3060a7aa639f1c7a6647ed1c06123
+
+Post-run finding (outside this run)
+-----------------------------------
+- Reopening the saved project showed the ports are gone.
+- Root cause: this macro was executed from the VBA Macro Editor, which does not write a
+  modeling history. Saved Model\3D\Model.mod contains only the empty 209-byte history header;
+  the PCB geometry survives because it is baked into Model.dib, but ports/lumped elements
+  (history objects) do not.
+- See docs/V1.0F_CST_SAVE_INTEGRITY_FINDING.md and run 20260913_115800.
+
+Errors
+------
+- None during this run (after the pre-run NewMWS -> FileNew patch documented in REPORT.md).
+- No solver process was started; no solver-start command exists in the macro
+  (build-only static check PASS).

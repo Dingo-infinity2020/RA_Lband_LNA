@@ -1,0 +1,21 @@
+G0 parameters (stored by the macro; as shown in the CST Parameter List)
+
+er        = 4.1
+tand      = 0.018
+cu_top    = 0.035
+cu_inner  = 0.0152
+h12       = 0.0994
+core_h    = 1.265
+h34       = 0.0994
+trace_w   = 0.1565
+z_l2_top      = -h12
+z_l2_bot      = -h12-cu_inner
+z_core_bot    = -h12-cu_inner-core_h
+z_l3_top      = -h12-cu_inner-core_h
+z_l3_bot      = -h12-cu_inner-core_h-cu_inner
+z_bot_pp_bot  = -h12-cu_inner-core_h-cu_inner-h34
+z_bot_cu_max  = -h12-cu_inner-core_h-cu_inner-h34
+z_bot_cu_min  = -h12-cu_inner-core_h-cu_inner-h34-cu_top
+
+Units: lengths mm, frequency GHz (Units: Geometry "mm", Frequency "GHz", Time "ns", Voltage "V").
+Solver frequency range configured: 0.5–3.0 GHz (no solver started).
