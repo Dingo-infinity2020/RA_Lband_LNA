@@ -4,9 +4,9 @@ Low-cost, room-temperature **1.05–1.55 GHz radio-astronomy LNA** reference des
 
 ## Current release
 
-**RA-LNA-L1 V1.0F — prototype manufacturing candidate (2026-09-12)**
+**RA-LNA-L1 V1.0F — geometry frozen / pre-fabrication simulation hold (2026-09-13)**
 
-> **Do not fabricate V1.0C, V1.0D, or V1.0E.** V1.0F supersedes them for first fabrication.
+> **Do not fabricate V1.0C, V1.0D, or V1.0E.** V1.0F supersedes them. V1.0F geometry is visually frozen, but first fabrication is temporarily held until the focused CST pre-fabrication gates are reviewed.
 
 ### Target
 
@@ -29,9 +29,21 @@ JLC 3D review of V1.0E confirmed those SMA-land holes were gone, but also expose
 
 QPL9547 backside paddle remains the required RF/DC ground and keeps its two intentional 0.30 mm via-in-pad holes; these are unrelated to the deleted SMA stitching vias.
 
+## Pre-fabrication simulation hold
+
+Before first payment/order, run the focused CST build/review sequence:
+
+- G0: CST 2022 VBA/API preflight;
+- G1: input SMA/PCB launch + C1 + U1 input reference plane;
+- G2: U1 output + bias loading + C2 + long output line + output launch;
+- G3: choke/decoupling/VIN isolation and resonance screen;
+- G4: passive full-board direct input/output coupling screen.
+
+The first pass is deliberately **BUILD ONLY**: no solver, optimizer or automated parameter sweep until each model builds cleanly and the geometry/ports are visually accepted. See `docs/PREFAB_SIMULATION_GATE_PLAN.md`.
+
 ## Before ordering
 
-Upload the V1.0F Gerber ZIP to JLC and confirm:
+After the pre-fabrication simulation gate passes, re-confirm:
 
 1. four copper layers are recognized as Top / Inner1 / Inner2 / Bottom;
 2. isolated Top view shows the complete RF and bias network;
@@ -46,10 +58,8 @@ Upload the V1.0F Gerber ZIP to JLC and confirm:
 - `source/build_v1_0e.py` — derives V1.0E from V1.0D
 - `source/build_v1_0f.py` — derives V1.0F from V1.0E and performs a silkscreen-only cleanup
 - `manufacturing/RA-LNA-L1_V1.0D_main_Gerbers.zip` — retained superseded fabrication source
-- `docs/` — audit and JLC review findings
+- `docs/` — audit, JLC review and pre-fabrication simulation plan
 - `eda/eagle/` — editable transfer files retained as provenance; not fabrication authority
 - `tools/` — measurement utilities
-- `simulation/cst/` — SMA-launch surrogate model
-- `mechanical/enclosure/` — shield-box prototype
 
-Read `docs/SILKSCREEN_AUDIT_V1.0F.md` before ordering.
+Read `docs/SILKSCREEN_AUDIT_V1.0F.md` and `docs/PREFAB_SIMULATION_GATE_PLAN.md` before ordering.
